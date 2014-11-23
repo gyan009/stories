@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Esansar</title>
+	<!-- Latest compiled and minified CSS -->
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/cusom.css">
+<!-- Latest compiled and minified JavaScript -->
+
+</head>
+<body>
+
+ <div class="container">
+     <div id="booklist" style="display: none;">
+         <div class="headerList">eSansar</div>
+         <div class="headersub">
+         <div class="headershort">
+             <span>Books</span>
+             <span>Magazines</span>
+             <span>Comics</span>
+         </div>
+         <!--div class="headerfree">
+             <span>Free</span>
+             <span>Paid</span>
+             <span>All</span>
+         </div-->
+         <div class="RequestBook">
+             <span>Request Book</span>
+         </div>
+         </div>
+         <div id="bookListData">
+
+
+         </div>
+     </div>
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+           <h1 class="logos">eSansar</h1>
+           <form action="" method="post">
+               <div class="error"></div>
+            	<a href="#" class="login" id="registration">Registration</a>
+           <input type="text" class="form-control" id="emaill" name="email" placeholder="Email Address"><br>
+           	<input type="password" class="form-control" id="passwdl" name="passwd" placeholder="Password">
+           	<a href="#" class="login" id="login">Login</a>
+           </form>
+        </div>
+
+        <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="signupform" class="form-horizontal" role="form">
+                                
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="firstname" class="col-md-3 control-label">First Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="icode" class="col-md-3 control-label">Invitation Code</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="icode" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Button -->                                        
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        <span style="margin-left:8px;">or</span>  
+                                    </div>
+                                </div>
+                                
+                                <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+                                    
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with </button>
+                                    </div>                                           
+                                        
+                                </div>
+                                
+                                
+                                
+                            </form>
+                         </div>
+                    </div>
+
+               
+               
+                
+         </div> 
+    </div>
+ <script src="js/jquery-1.9.1.js"></script>
+ <script src="js/jquery.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+ <script src="js/jcookies.js"></script>
+ <script  language="JavaScript" scr="http://onlinewebapi.com/andriod/sdk.js"></script>
+<script>
+    $(document).ready(function(){
+        var url="http://onlinewebapi.com/andriod/api.php";
+
+        function displayList(datas){
+
+            $('body').css("background","none");
+            $('#booklist').css("display","block");
+            $("#loginbox").hide();
+            getBookData();
+        }
+        function getBookData(){
+            $.ajax({
+                url: url + "?req=listbook",
+                type: "post",
+                data: {"method": "get", tables: "books-341416334905"},
+                success: function (data) {
+                    var datas = data.message;
+                    var listnumber = datas.length
+                   // alert(listnumber);
+                    var listData = "";
+                    for(var g=0; g<listnumber; g++){
+                        listData +="<div class='listmain'>";
+                        listData +="<div class='imagebook'><img src='"+datas[g].coverpage+"' height='50' width='70'></div>";
+                        listData +="<div class='bookinfo'>";
+                        listData +="<h5>"+datas[g].name+"</h5>";
+                        listData +="<div class='auth'>Author : "+datas[g].authorname+"</div>";
+                        listData +="<div class='pub'>Publisher : "+datas[g].uploderid+"</div></div>";
+                        //listData +="<div class='price'>&#8377; 100</div>";
+                        listData +=" <a href='"+datas[g].downloadPath+"' class='buy'>Downlaod</a></div>";
+
+
+//                        listData +="<div class='listmain'><div class='imagebook'><img src='"+datas[g].coverpage+"' height='50' width='70'></div>";
+//                        listData +="<div class='bookname'><h5>"+datas[g].name+"</h5></div>";
+//                        listData +="<div class='bookname'><span clsss='dataspan'>Author:"+datas[g].authorname+"</span></div>";
+//                        listData +="<div class='bookname'><span class='dataspan'>Publisher:"+datas[g].uploderid+"</h5></div></div><div style='clear:both;'></div>";
+                    }
+                    $("#bookListData").html(listData);
+                }
+            });
+        }
+
+        $("#login").click(function(){
+            var username = $("#emaill").val();
+            var password = $("#passwdl").val();
+            $.ajax({
+                url:url+"?req=login",
+                type:"post",
+                data:{"username":username,"password":password,"method":"post",tables:"login-341416427492", hitType:"Search"},
+                success:function(data){
+                    var datas = data.message;
+                    if(datas[0]) {
+                        $.cookie('_id', datas[0]._id);
+                        displayList();
+                    } else {
+                        $(".error").html('<div class="alert alert-danger" role="alert">Username and password incorrect</div>');
+                    }
+                }
+
+            });
+        });
+
+
+if( $.cookie('_id')){
+    displayList();
+}
+
+    });
+
+
+</script>
+</body>
+</html>
